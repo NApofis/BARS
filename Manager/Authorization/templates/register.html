@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+{% block register %}
+    <div class="register" style="width: 500px; ">
+        <form action="/auth/register/" method="post">
+            {% csrf_token %}
+            {{ form|removetags:"br"|safe }}
+            <p></p>
+            <input class="button" type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+{% endblock %}

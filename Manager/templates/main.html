@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+    <meta charset="UTF-8">
+    <title>Чат</title>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css.css' %}">
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+    <div class="top-bar">
+        <section class="top-bar-section">
+                {% if user.is_authenticated %}
+                    <li id="exitt">
+                        <a href="/auth/logout/">Выйти {{ user.username }}</a>
+                    </li>
+                    <p class="dobro">Добро пожаловать</p>
+                {% else %}
+                    <li id="exitt"><a href="/auth/login/">Войти</a></li>
+                {% endif %}
+        </section>
+    </div>
+    <h1 class="zaga">
+        <a href="/">
+            Общий чат
+        </a>
+    </h1>
+    <div class="chat" >
+        {% block article %}{% endblock %}
+    </div>
+    <div>
+        {% block login %}{% endblock %}
+    </div>
+    <div>
+        {% block register %}{% endblock %}
+    </div>
+</body>
+</html>

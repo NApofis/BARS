@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% block login %}
+<div style="width: 300px;  margin-left: 40%;  " >
+    <form action="/auth/login/" method="post">
+        {% csrf_token %}
+        <label for="username">
+            Имя пользователя
+        </label>
+        <input type="text" name="username" id="username" required>
+        <label for="password">
+            Пароль
+        </label>
+        <input type="password"  id="password" required>
+        {% if login_error %}
+            <label class="error">{{ login_error }}</label>
+        {% endif %}
+            <input class="button" id= "unic" type="submit" value="Войти" name="Войти">
+        <div class="label round secondary">
+            <a href="/auth/register/">
+                Регистрация
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
