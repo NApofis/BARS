@@ -1,6 +1,6 @@
 [
   {
-    "model": "notes.category",
+    "model": "Notes.category",
     "pk": 1,
     "fields": {
       "category_text": "Ссылка",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "notes.category",
+    "model": "Notes.category",
     "pk": 2,
     "fields": {
       "category_text": "Заметка",
@@ -17,7 +17,7 @@
     }
   },
   {
-    "model": "notes.category",
+    "model": "Notes.category",
     "pk": 3,
     "fields": {
       "category_text": "Памятка",
@@ -25,7 +25,7 @@
     }
   },
   {
-   "model": "notes.category",
+   "model": "Notes.category",
     "pk": 4,
     "fields": {
       "category_text": "TODO",

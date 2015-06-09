@@ -3,7 +3,7 @@
 <html>
 <head lang="ru">
     <meta charset="UTF-8">
-    <title>Чат</title>
+    <title>Менеджер заметок</title>
     <link rel="stylesheet" type="text/css"
           href="{% static 'css.css' %}">
     <script type="text/javascript"
@@ -13,24 +13,14 @@
 </head>
 <body>
     <div class="top-bar">
-        <section class="top-bar-section">
-                {% if user.is_authenticated %}
-                    <li id="exitt">
-                        <a href="/auth/logout/">Выйти {{ user.username }}</a>
-                    </li>
-                    <p class="dobro">Добро пожаловать</p>
-                {% else %}
-                    <li id="exitt"><a href="/auth/login/">Войти</a></li>
-                {% endif %}
-        </section>
+    <p>{{ user }}</p>
+        {% if user.is_authenticated %}
+            <a id="exitt" href="/auth/logout/">Выйти {{ user.username }}</a>
+        {% endif %}
+         <a id="mng" href="/">Менеджер заметок</a>
     </div>
-    <h1 class="zaga">
-        <a href="/">
-            Общий чат
-        </a>
-    </h1>
-    <div class="chat" >
-        {% block article %}{% endblock %}
+    <div class="notes" >
+        {% block notes %}{% endblock %}
     </div>
     <div>
         {% block login %}{% endblock %}

@@ -38,7 +38,7 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('/notes/')
+            return redirect('/')
         else:
             args['login_error'] = 'Пользователь не существует'
             return render_to_response('login.html', args)
@@ -59,14 +59,6 @@ def logout(request):
     return response
 
 
-def delet(request):
-    """
-    :param request:
-    :return: redirect('/')
-    """
-    auth.logout(request)
-
-
 def register(request):
     """
     register
@@ -79,17 +71,16 @@ def register(request):
     args.update(csrf(request))
     args['form'] = UserCreationForm
     if request.POST:
-        newer_form = UserCreationForm(request.POST)
-        if newer_form.is_valid():
-            newer_form.save()
+        new_form = UserCreationForm(request.POST)
+        if new_form.is_valid():
+            new_form.save()
             newer = auth.authenticate(
-                username=newer_form.cleaned_data['username'],
-                password=newer_form.cleaned_data['password2']
+                username=new_form.cleaned_data['username'],
+                password=new_form.cleaned_data['password2']
             )
             auth.login(request, newer)
-            response = redirect('/')
-            return response
+            return redirect('/')
         else:
-            args['form'] = newer_form
+            args['form'] = new_form
     return render_to_response('register.html', args)
 # Create your views here.

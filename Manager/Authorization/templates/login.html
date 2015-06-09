@@ -1,25 +1,21 @@
 {% extends 'main.html' %}
 {% block login %}
-<div style="width: 300px;  margin-left: 40%;  " >
+<div id="zagalov"><h1>Авторизация</h1></div>
+<div style=" margin-top:220px; margin-left: 40%; " >
     <form action="/auth/login/" method="post">
         {% csrf_token %}
-        <label for="username">
-            Имя пользователя
-        </label>
-        <input type="text" name="username" id="username" required>
-        <label for="password">
-            Пароль
-        </label>
-        <input type="password"  id="password" required>
         {% if login_error %}
             <label class="error">{{ login_error }}</label>
         {% endif %}
+        <br>
+        <input type="text" name="username" id="username" required placeholder=" Имя пользователя">
+        <br><br>
+        <input type="password" name="password" id="password" required placeholder=" Пароль">
+        <br>
+        <p>
             <input class="button" id= "unic" type="submit" value="Войти" name="Войти">
-        <div class="label round secondary">
-            <a href="/auth/register/">
-                Регистрация
-            </a>
-        </div>
+            <a id="label_a" href="/auth/register/">Регистрация</a>
+        </p>
     </form>
 </div>
 {% endblock %}

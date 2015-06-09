@@ -1,11 +1,17 @@
 {% extends 'main.html' %}
 {% block register %}
-    <div class="register" style="width: 500px; ">
+    <div id="zagalov"><h1>Регистрация</h1></div>
+    <div style="margin-top:220px; margin-left: 41%;">
         <form action="/auth/register/" method="post">
             {% csrf_token %}
-            {{ form|removetags:"br"|safe }}
-            <p></p>
-            <input class="button" type="submit" value="Зарегистрироваться">
+            <p title="Обязательное поле. Не более 30 символов. Только буквы, цифры и символы @/./+/-/_."><label for="id_username"> Име пользователя</label><br>
+            {{ form.username }}<br></p>
+            <label for="id_password1">Пароль</label><br>
+            {{ form.password1 }}<br>
+            <p title="Введите тот же пароль, что и выше, для подтверждения"><label for="id_password2">Повторите пароль</label><br>
+            {{ form.password2 }}<br></p>
+            <input class="button" id="unik" type="submit" value="Запомнить">
+
         </form>
     </div>
 {% endblock %}

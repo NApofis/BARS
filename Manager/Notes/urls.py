@@ -3,5 +3,5 @@ from django.conf.urls import patterns, include, url
 
 
 urlpatterns = patterns('',
-                       url(r'', 'Authorization.views.paper'),
+                       url(r'', 'Notes.views.paper'),
                       )
