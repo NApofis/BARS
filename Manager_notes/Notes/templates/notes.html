@@ -1,4 +1,22 @@
 {% extends 'main.html' %}
 {% block notes %}
- <p>Hi</p>
+    {% for header, time, category, text, favorites in data %}
+     <div style="border: 2px; border-color: #404040; ">
+
+     <p style="margin-right: 20px; font-size: 12px;">
+         <output style="margin-left: 30px; font-size: 20px; border: 2px solid">{{ category }}</output>
+        <b style="border: 2px solid">{{ time }}</b>
+          {% if favorites == True %}
+         <output style=" color: green; font-size: 15px; margin-left: 3%;">Избранное</output>
+          {% else %}
+         <output style="color: red; font-size: 15px; margin-left: 3% ;">Не избранное</output>
+          {% endif %}
+     </p>
+     <div style="border: 2px solid; width: 99.6%;">
+     <h5 style="word-wrap: break-word; margin-left:  100px; width: 80%">{{ header }}</h5>
+     <p style=" word-wrap: break-word; width: 96%; margin-left: 15px; font-size: 15px; margin-top: -10px;" >{{ text }}</p>
+     </div>
+     </div>
+        <hr style="">
+    {% endfor %}
 {% endblock %}

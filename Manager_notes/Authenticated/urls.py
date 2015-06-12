@@ -1,11 +1,12 @@
 # -*-coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
+from Authenticated.views import register,logout,login, paper
 
 
 urlpatterns = patterns('',
-                       url(r'register/', 'Authenticated.views.register'),
-                       url(r'login/', 'Authenticated.views.login'),
-                       url(r'logout/', 'Authenticated.views.logout'),
+                       url(r'register/', register),
+                       url(r'login/', login),
+                       url(r'logout/', logout),
                        url(r'notes/', include('Notes.urls')),
-                       url(r'', 'Authenticated.views.paper'),
+                       url(r'', paper),
                       )

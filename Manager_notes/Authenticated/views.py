@@ -8,7 +8,8 @@ from django.template.context import RequestContext
 
 def paper(request):
     if request.user.is_authenticated():
-        return redirect('/notes/')
+        r = '/notes/' + request.user.username + '/'
+        return redirect(r)
     else:
         return redirect('/auth/login/')
 
@@ -23,7 +24,8 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('/notes/')
+            r = '/notes/' + request.user.username + '/'
+            return redirect(r)
         else:
             args['login_error'] = 'Пользователь не существует'
             return render_to_response('login.html', c)

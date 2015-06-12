@@ -17,7 +17,10 @@ class Category(models.Model):
         db_table = 'category'
 
     category_text = models.CharField(max_length=250)
-    category_user = models.ForeignKey(User, default=None)
+    category_user = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.category_text
 
 
 class Notes(models.Model):
@@ -32,7 +35,8 @@ class Notes(models.Model):
         """
         db_table = 'notes'
 
-    note_time = models.TimeField(default=datetime.datetime.now())
+    note_header = models.CharField(max_length=250)
+    note_time = models.DateTimeField(default=datetime.datetime.now())
     note_text = models.TextField()
     note_category = models.ForeignKey(Category)
     note_favorites = models.BooleanField(default=False)
