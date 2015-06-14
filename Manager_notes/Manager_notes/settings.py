@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Authenticated',
     'Notes',
+    'tinymce',
 )
 
 MIDDLEWARE_CLASSES = (

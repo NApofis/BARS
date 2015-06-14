@@ -1,7 +1,14 @@
 {% extends 'main.html' %}
 {% block notes %}
-    {% for header, time, category, text, favorites in data %}
-     <div style="border: 2px; border-color: #404040; ">
+    {% csrf_token %}
+    <div style="margin-top: 10px">
+    <button class="button" name="dob">Добавить</button>
+    <button class="button">Сортировать</button>
+    <button class="button">Поиск</button>
+    <hr>
+    </div>
+    {% for id, header, time, category, text, favorites in data %}
+     <div style="border: 2px; border-color: #404040; " id="{{ id }}">
 
      <p style="margin-right: 20px; font-size: 12px;">
          <output style="margin-left: 30px; font-size: 20px; border: 2px solid">{{ category }}</output>
@@ -16,7 +23,12 @@
      <h5 style="word-wrap: break-word; margin-left:  100px; width: 80%">{{ header }}</h5>
      <p style=" word-wrap: break-word; width: 96%; margin-left: 15px; font-size: 15px; margin-top: -10px;" >{{ text }}</p>
      </div>
+         <input type="text" name="url" style="margin-left:38.4% ">
+         <button class="button" id="href">Прямая ссылка</button>
+         <button class="button" id="red" style="margin-top: 10px" >Редактировать</button>
+         <button class="button" id="del" style="margin-top: 10px">Удалить</button>
+     <hr>
      </div>
-        <hr style="">
+
     {% endfor %}
 {% endblock %}

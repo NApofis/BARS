@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'Manager_notes.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('Authenticated.urls')),
     url(r'^notes/', include('Notes.urls')),
