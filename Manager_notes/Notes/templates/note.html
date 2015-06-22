@@ -1,0 +1,5 @@
+{% extends 'main.html' %}
+{% block note %}
+    {% csrf_token %}
+    {{ note|safe }}
+{% endblock %}
