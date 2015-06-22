@@ -1,34 +1,123 @@
 {% extends 'main.html' %}
 {% block notes %}
-    {% csrf_token %}
-    <div style="margin-top: 10px">
-    <button class="button" name="dob">Добавить</button>
-    <button class="button">Сортировать</button>
-    <button class="button">Поиск</button>
-    <hr>
-    </div>
-    {% for id, header, time, category, text, favorites in data %}
-     <div style="border: 2px; border-color: #404040; " id="{{ id }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.json.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Ajax.js' %}"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui-1.9.2.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.ui.datepicker-ru.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'south-street/jquery-ui-1.9.2.custom.min.css' %}">
 
-     <p style="margin-right: 20px; font-size: 12px;">
-         <output style="margin-left: 30px; font-size: 20px; border: 2px solid">{{ category }}</output>
-        <b style="border: 2px solid">{{ time }}</b>
-          {% if favorites == True %}
-         <output style=" color: green; font-size: 15px; margin-left: 3%;">Избранное</output>
+
+    {% csrf_token %}
+    <div id="form" style="border: 1px solid #000000;">
+    <div id="div_new_category">
+        <output style="color: green; font-size: 20px">|</output>
+        <button id="new_plus" class="button">Редактор категорий</button>
+        <output style="color: green; font-size: 20px">|</output><br>
+    </div>
+    <output style="color: green; font-size: 20px">|</output>
+    <label>Заголовок :</label>
+    <input id="new_header" class="tiny_stile" style="width: 350px;" type="text" value="{{ data.note_header }}">
+        <output style="color: green; font-size: 20px">|</output>
+    <label>Избранное :</label>
+    <input id="new_favorites" type="checkbox">
+        <output style="color: green; font-size: 20px">|</output>
+    <label>Категория :</label>
+    <select id="new_category" size="1" class="tiny_stile" style="width: 175px;">
+        <optgroup label="Стандартные">
+        {% for i in category_s %}
+            {% if i.id == data.note_category_id %}
+            <option value="{{ i.id }}" selected>{{ i.category_text }}</option>
+            {% else %}
+            <option value="{{ i.id }}" >{{ i.category_text }}</option>
+            {% endif %}
+        {% endfor %}
+        </optgroup>
+    {% if not category_m == False %}
+        <optgroup label="Свои">
+        {% for j in category_m %}
+                {% if j.id == data.note_category_id %}
+                <option value="{{ j.id }}" selected>{{ j.category_text }}</option>
+                {% else %}
+                <option value="{{ j.id }}">{{ j.category_text }}</option>
+                {% endif %}
+        {% endfor %}
+        </optgroup>
+    {% endif %}
+    </select>
+    <output style="color: green; font-size: 20px">|</output><br>
+    <form id="farm">
+    <output style="color: green; font-size: 20px">|</output>
+    {{ form.media }}
+    {{ form }}
+    </form>
+    <button  style="float: right; margin-right: -1px; margin-top: 1px" class="button" id="exit_note">Отмена</button>
+    <button  style="float: right; margin-right: 5px; margin-top: 1px" class="button" id="new">Добавить</button>
+    </div>
+
+
+    <div style="margin-top: 30px">
+    <hr>
+    <output style="color: green; font-size: 25px; margin-left: -3px">|</output>
+    <select id="sort_category" size="1" class="tiny_stile">
+        <option value="1">Дата</option>
+        <option value="2">Категория</option>
+        <option value="3">Избранное</option>
+    </select>
+    <select id="sort_cret" size="1" class="tiny_stile" >
+        <option value="1">По возвростанию</option>
+        <option value="2">По Убыванию</option>
+    </select>
+    <button class="button" id="sort">Сортировать</button>
+    <output style="color: green; font-size: 25px">|</output>
+
+    <div id="search_div" style=" float: right">
+        <output style="color: green; font-size: 25px">|</output>
+        <select id="search_category" size="1" class="tiny_stile">
+            <option value="1">Дата</option>
+            <option value="2">Заголовок</option>
+            <option value="3">Категория</option>
+            <option value="4">Избранное</option>
+        </select>
+        <button id="search_button_cretery" class="button">Выбрать критерий для поиска</button>
+        <output style="color: green; font-size: 25px">|</output>
+    </div>
+    <hr style=" color: #000000">
+    </div>
+    <div id="all_notes">
+    {% for id, header, time, category, text, favorites, href in data %}
+     <div style="border: 2px; border-color: #404040;" id="{{ id }}" class="note">
+     <p id="category_time_favorites" style="margin-right: 20px; font-size: 12px;">
+          <output id="category" style="margin-left: 30px; font-size: 20px; border: 2px solid">{{ category }}</output>
+          <b style="border: 2px solid">{{ time }} </b>
+          {% if favorites == True %}`
+          <output id="favorites"  style=" color: green; font-size: 15px; margin-left: 3%;">Избранное</output>
           {% else %}
-         <output style="color: red; font-size: 15px; margin-left: 3% ;">Не избранное</output>
+          <output id="favorites" style="color: red; font-size: 15px; margin-left: 3%;">Не избранное</output>
           {% endif %}
      </p>
-     <div style="border: 2px solid; width: 99.6%;">
-     <h5 style="word-wrap: break-word; margin-left:  100px; width: 80%">{{ header }}</h5>
-     <p style=" word-wrap: break-word; width: 96%; margin-left: 15px; font-size: 15px; margin-top: -10px;" >{{ text }}</p>
+     <div id="header_text" style="border: 2px solid; width: 99.6%;">
+     <h5 id="header" style="word-wrap: break-word; margin-left: 100px; width: 80%">{{ header }}</h5>
+     <div id="text" style="word-wrap: break-word; width: 96%; margin-left: 15px;" >{{ text|safe }}</div>
      </div>
-         <input type="text" name="url" style="margin-left:38.4% ">
-         <button class="button" id="href">Прямая ссылка</button>
+     <div id="href_div" style="float: right; margin-top: 10px">
+         {% if href != 0 %}
+            <a id='href_uuid' style='font-size: 10px;' href='{{ href }}'>{{ href }}</a>
+            <button class='button' id='close_href'>Закрыть прямую ссылку</button>
+         {% else %}
+            <button class="button" id="open_href">Открыть прямую ссылку</button>
+         {% endif %}
+     </div>
          <button class="button" id="red" style="margin-top: 10px" >Редактировать</button>
          <button class="button" id="del" style="margin-top: 10px">Удалить</button>
      <hr>
      </div>
-
     {% endfor %}
+    </div>
+
 {% endblock %}

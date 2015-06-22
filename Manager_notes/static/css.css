@@ -78,7 +78,7 @@ border: none;
     width: 70%;
     margin-left: 18%;
 }
-select:hover{
-    color: white;
-    outline:none;
+.tiny_stile{
+    border: 1px solid #CCCCCC;
+    background: none repeat scroll 0 0 #C1C1C1;
 }

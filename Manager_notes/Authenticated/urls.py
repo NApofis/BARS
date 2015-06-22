@@ -1,6 +1,6 @@
 # -*-coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
-from Authenticated.views import register,logout,login, paper
+from Authenticated.views import register, logout, login, paper
 
 
 urlpatterns = patterns('',
