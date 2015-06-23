@@ -1,11 +1,11 @@
 $(document).ready(function(){
     id = 0;
     if($.cookie('sort') != null && $("#all_notes").children().length != 0){
-        var s_category = $.evalJSON($.cookie('sort')).s_category
-        var s_cret = $.evalJSON($.cookie('sort')).s_cret
+        var s_category = $.evalJSON($.cookie('sort')).s_category;
+        var s_cret = $.evalJSON($.cookie('sort')).s_cret;
         $("#sort_category").val(s_category);
         $("#sort_cret").val(s_cret);
-        var c=[]
+        var c=[];
         var r = document.getElementById("all_notes");
         for(var i = 0; i < $.evalJSON($.cookie('sort')).s_data.length; i++) {
             c[i] = document.getElementById($.evalJSON($.cookie('sort')).s_data[i])
@@ -18,19 +18,19 @@ $(document).ready(function(){
     $(function now(){
         if($.cookie('now') == null){
             if($.cookie('sort') != null){
-                var r = $.cookie('sort')
+                var r = $.cookie('sort');
                 $.cookie('sort', r, {
-                    expires: 360,
-                })
+                    expires: 360
+                });
                 $.cookie('now', true, {
-                    expires: 180,
+                    expires: 180
                 })
             }
         }
         else{
             if($.cookie('sort') == null){
             $.cookie('now', null, {
-                expires: -1,
+                expires: -1
             })
         }
        }
@@ -52,6 +52,7 @@ $(document).ready(function(){
                     else{
                         window.location.href = "/";
                     }
+                    $('#sort').trigger('click');
                 }
         });
     }); // Удаление заметки
@@ -65,10 +66,7 @@ $(document).ready(function(){
         $('#new_header').val(header);
         var favorites = parent.children('#category_time_favorites').children('#favorites').text();
         if(favorites == "Избранное"){
-            $('#new_favorites').attr('checked', true)
-        }
-        else{
-            $('#new_favorites').attr('checked', false)
+            $('#new_favorites').prop("checked", true)
         }
         var category = parent.children('#category_time_favorites').children('#category').text();
         $('#new_category option').each(function(){
@@ -102,17 +100,17 @@ $(document).ready(function(){
                         text:text, header:header, favorites:favorites, category:category
                 },
                 success: function (jsondata) {
-                    if(jsondata == 'error') location.href = '/'
+                    if(jsondata == 'error') location.href = '/';
                     if(jsondata == 1 | jsondata.data == 0) {
                         var parent = $('#'+id);
                         if(jsondata == 1){
                             var ctf = parent.children('#category_time_favorites');
                             ctf.children('#category').text($("#new_category option:selected").text());
                             if(favorites){
-                                ctf.children('#favorites').text("Избранное")
+                                ctf.children('#favorites').text("Избранное").css('color', 'green')
                             }
                             else{
-                                ctf.children('#favorites').text("Не избранное")
+                                ctf.children('#favorites').text("Не избранное").css('color', 'red')
                             }
                             var ht = parent.children('#header_text');
                             ht.children('#header').text(header);
@@ -120,7 +118,6 @@ $(document).ready(function(){
                         }
                         else{
                             var all_notes = $('#all_notes');
-                            var ctf = parent.children('#category_time_favorites');
                             var n_category = $("#new_category option:selected").text();
                             if(favorites){
                                 var n_favorites = "Избранное";
@@ -137,11 +134,11 @@ $(document).ready(function(){
                             "style=' color: "+color+"; font-size: 15px; margin-left: 3%;'>"+n_favorites+"</output></p>"+
                             "<div id='header_text' style='border: 2px solid; width: 99.6%;'>"+
                             "<h5 id='header' style='word-wrap: break-word; margin-left: 100px; width: 80%'>"+header+"</h5>"+
-                            "<div id='text' style='word-wrap: break-word; width: 96%; margin-left: 15px;' >"+text+"</div>"+
-                            "</div><input type='text' name='url' style='margin-left:38.4%'> <button class='button'"+
-                            "id='href'>Прямая ссылка</button> <button class='button' id='red' style='margin-top: 10px'>"+
-                            "Редактировать</button> <button class='button' id='del' style='margin-top: 10px'>Удалить</button>"+
-                             "<hr></div>";
+                            "<div id='text' style='word-wrap: break-word; width: 96%; margin-left: 15px;' >"+text+"</div></div>" +
+                            "<div id='href_div' style='float: right; margin-top: 10px'>" +
+                            "<button class='button' id='open_href'>Открыть прямую ссылку</button></div>"+
+                            "<button class='button' id='red' style='margin-top: 10px' >Редактировать</button> "+
+                            "<button class='button' id='del' style='margin-top: 10px'>Удалить</button<hr></div>";
                             all_notes.prepend(html);
                         }
                         tinymce.get('id_note_text').setContent("");
@@ -177,14 +174,14 @@ $(document).ready(function(){
                 type: "POST",
                 data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value'), category:text },
                 success: function (jsondata) {
-                    if(jsondata == 'error') location.href = '/'
+                    if(jsondata == 'error') location.href = '/';
                     if (jsondata.stat == 0){
                         $("#text_category").val("Уже существует");
                     }
                     else{
                         if(jsondata.stat == 1){
                             $("#text_category").val("");
-                            var child = $("#new_category").children()
+                            var child = $("#new_category").children();
                             if (child.length == 1){
                                 $("#new_category").append( $('<optgroup label="Свои"></outgroup>'));
                             }
@@ -208,7 +205,7 @@ $(document).ready(function(){
                 type: "POST",
                 data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value'), category:text },
                 success: function (jsondata) {
-                    if(jsondata == 'error') location.href = '/'
+                    if(jsondata == 'error') location.href = '/';
                     if (jsondata.stat == 0){
                         $("#text_category").val("Не существует");
                     }
@@ -226,7 +223,9 @@ $(document).ready(function(){
                                if($(this).children().children("#category").text() == text){
                                    $(this).remove()
                                }
-                            })
+                            });
+                            $('#sort').trigger('click');
+
                         }
                         else{
                             $("#text_category").val("Ошибка");
@@ -252,10 +251,10 @@ $(document).ready(function(){
             method: "POST",
             data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value'), s_category:s_category, s_cret:s_cret},
             success: function(data){
-                if(data == 'error') location.href = '/'
-                var sort = {s_category:s_category, s_cret:s_cret, s_data:data}
+                if(data == 'error') location.href = '/';
+                var sort = {s_category:s_category, s_cret:s_cret, s_data:data};
                 $.cookie('sort', $.toJSON(sort));
-                var c=[]
+                var c=[];
                 var r = document.getElementById("all_notes");
                 for(var i = 0; i < data.length; i++) {
                     c[i] = document.getElementById(data[i])
@@ -305,7 +304,7 @@ $(document).ready(function(){
     }); // Показать поля для для фильтрации относительно выбора пользователя
 
     $('#search_div').on('click', '#search', function(){
-        var idi = $(this).attr('name')
+        var idi = $(this).attr('name');
         if(idi == 1){
             var data = $("#datepicker").val()
         }
@@ -313,7 +312,7 @@ $(document).ready(function(){
             var data = $("#search_data").val()
         }
         if(idi == 4) {
-            var data = $("#serch_data").prop("checked")
+            var data = $("#serch_data").prop("checked");
             data = data ? 1 : 2
         }
         if(data != "Нажми" && data != ""){
@@ -322,13 +321,13 @@ $(document).ready(function(){
                 type: "POST",
                 data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value'), idi:idi, data:data },
                 success: function (data) {
-                    if(data == 'error') location.href = '/'
-                    if(data == 'not') alert("Данные не найдены")
+                    if(data == 'error') location.href = '/';
+                    if(data == 'not') alert("Данные не найдены");
                     else {
-                        var e = $('div#all_notes > div')
+                        var e = $('div#all_notes > div');
                         for (var i = 0; i < e.length; i++) {
-                            var t = $(e[i]).attr('id')
-                            var y = -1
+                            var t = $(e[i]).attr('id');
+                            var y = -1;
                             if(data.length==1){
                                 if(t == data[0]){
                                     y = 0;
@@ -362,11 +361,11 @@ $(document).ready(function(){
                 "<option value='3'>Категория</option>"+
                 "<option value='4'>Избранное</option></select> "+
                 "<button id='search_button_cretery' class='button'>Выбрать критерий для поиска</button> "+
-                "<output style='color: green; font-size: 25px'>|</output>"
+                "<output style='color: green; font-size: 25px'>|</output>";
         $('#search_div').html(html);
-        var e = $('div#all_notes > div')
+        var e = $('div#all_notes > div');
         for (var i = 0; i < e.length; i++) {
-            var t = $(e[i]).attr('id')
+            var t = $(e[i]).attr('id');
             $(e[i]).css('display', 'block');
             }
         }); // Отмена поиска заметок
@@ -384,11 +383,11 @@ $(document).ready(function(){
             type: "POST",
             data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value')},
             success: function (data) {
-                if (data == 'error') location.href = '/'
-                var dat = "http://127.0.0.1:8100" + data
+                if (data == 'error') location.href = '/';
+                var dat = "http://127.0.0.1:8100" + data;
                 html = "<a id='href_uuid' style='font-size: 10px;' href='"+dat+"'></a> "+
-                "<button class='button' id='close_href'>Закрыть прямую ссылку</button> "
-                $("#"+ id).children("#href_div").html(html)
+                "<button class='button' id='close_href'>Закрыть прямую ссылку</button> ";
+                $("#"+ id).children("#href_div").html(html);
                 $("#"+ id).children("#href_div").children("#href_uuid").text(dat)
             }
 
@@ -401,8 +400,8 @@ $(document).ready(function(){
             type: "POST",
             data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').attr('value')},
             success: function (data) {
-                if(data == 'error') location.href = '/'
-                html = "<button class='button' id='open_href'>Открыть прямую ссылку</button>"
+                if(data == 'error') location.href = '/';
+                html = "<button class='button' id='open_href'>Открыть прямую ссылку</button>";
                 $("#"+id).children("#href_div").html(html)
             }
         });
