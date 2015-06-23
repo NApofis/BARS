@@ -212,10 +212,10 @@ $(document).ready(function(){
                     else{
                         if(jsondata.stat == 1){
                             $("#text_category").val("");
-                            var opt = $("#new_category").children("optgroup[label=Свои]").children( $('<option value="'+jsondata.id+'">'+text+'</option>'));
-                            opt.remove();
+                            var opt2 = $('option[value='+jsondata.id+']');
+                            opt2.remove();
                             var opt = $("#new_category").children("optgroup[label=Свои]");
-                            if(opt.length == 1 ){
+                            if(opt.length == 0 ){
                                 opt.remove();
                             }
                             parent = [];
